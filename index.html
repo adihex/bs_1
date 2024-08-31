@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="display: flex; flex-direction: column; align-items: center">
+    <h1>LOG FILE</h1>
+    <ul id="log"></ul>
+    <script>
+      const ws = new WebSocket("ws://localhost:3000");
+      const logList = document.getElementById("log");
+      ws.onopen = () => {
+        console.log("Connected to server!");
+      };
+
+      ws.onmessage = (message) => {
+        console.log(message.data);
+
+        const data = message.data.split("\n");
+        data.forEach((element) => {
+          const listEle = document.createElement("li");
+          listEle.textContent = element;
+          logList.appendChild(listEle);
+        });
+      };
+    </script>
+  </body>
+</html>
